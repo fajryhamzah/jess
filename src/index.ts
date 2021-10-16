@@ -23,7 +23,7 @@ client.on('ready', () => {
             try {
                 await channel.send('It\' Jess');
             } catch (e) {
-                console.log('Error on sending message', e);
+                console.log('Error on sending message');
             }
         })
     })
@@ -49,9 +49,9 @@ client.on('messageCreate', (msg: Message) => {
     let message = msg.content.split(' ');
     message.shift();
 
-    let reply = HandlerFactory.execute(message);
-
-    msg.channel.send(reply);
+    HandlerFactory.execute(message).then(reply => {
+        msg.channel.send(reply);
+    });
 });
 
 client.login(config.getClientToken());

@@ -1,5 +1,6 @@
 'use strict';
 
+import { GetPriceHandler } from "./get_price_handler";
 import Handler from "./handler_interface";
 
 class HandlerFactory implements Handler {
@@ -13,32 +14,35 @@ class HandlerFactory implements Handler {
         throw new Error("Method not implemented.");
     }
 
-    execute(message: string[]): string {
+    async execute(message: string[]): Promise<string> {
         let mainCommand = message.shift()?.toLowerCase();
 
         if (mainCommand === 'help') {
             return this.help();
         }
 
-        this.handlers.forEach(handler => {
+        for (const handler of this.handlers) {
             if (handler.getCommandName() === mainCommand) {
-                return handler.execute(message);
+                return await handler.execute(message);
             }
-        })
+        }
 
-        return 'hmmm.. i can\'t understand what you saying.';
+        return new Promise((resolve, reject) => {
+            resolve('hmmm.. i can\'t understand what you saying.');
+        });
     }
 
-    help(): string {
+    async help(): Promise<string> {
         let message = 'Here is the list of thing I can do:';
 
-        this.handlers.forEach(handler => {
-            message += '\n '+ handler.help();
+        this.handlers.forEach(async (handler) => {
+            message += '\n '+ await handler.help();
         });
 
-        message += '\n That`s the thing I know';
-
-        return message;
+        return new Promise((resolve, reject) => {
+            message += '\n That`s the thing I know';
+            resolve(message);
+        });
     }
 }
 
