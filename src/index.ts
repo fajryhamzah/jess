@@ -12,7 +12,7 @@ client.on('ready', () => {
 
 client.on('error', (e:Error) => {
     console.log(`Error : ` + e);
-  });
+});
 
 client.on('messageCreate', (msg:Message) => {
     console.log('message ', msg);
