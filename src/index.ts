@@ -1,8 +1,9 @@
 'use strict';
 
 import { Client, Intents, Message, Permissions, TextChannel } from 'discord.js';
-import isInWhitelist from './utils/whitelist-user';
-import Config from './app-config';
+import isInWhitelist from './utils/whitelist_user';
+import Config from './app_config';
+import HandlerFactory from './handler/handler_factory';
 
 const config = Config.getConfig();
 const client = new Client({ intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_MESSAGES] });
@@ -34,11 +35,10 @@ client.on('error', (e: Error) => {
 });
 
 client.on('messageCreate', (msg: Message) => {
-    console.log('message ', msg);
-
     let senderUsername = msg.author.username;
+    let jessId = <string>client.user?.id;
 
-    if (client.user?.username === senderUsername) {
+    if (client.user?.username === senderUsername || !msg.mentions.members?.has(jessId)) {
         return;
     }
 
@@ -46,8 +46,12 @@ client.on('messageCreate', (msg: Message) => {
         msg.channel.send('I only obey instruction from my papa!');
     }
 
+    let message = msg.content.split(' ');
+    message.shift();
 
-    msg.channel.send(msg.content);
+    let reply = HandlerFactory.execute(message);
+
+    msg.channel.send(reply);
 });
 
 client.login(config.getClientToken());
