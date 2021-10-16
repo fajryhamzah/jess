@@ -7,7 +7,9 @@ class HandlerFactory implements Handler {
     private handlers: Handler[];
 
     constructor() {
-        this.handlers = [];
+        this.handlers = [
+            new GetPriceHandler()
+        ];
     }
 
     getCommandName(): string {
@@ -18,7 +20,7 @@ class HandlerFactory implements Handler {
         let mainCommand = message.shift()?.toLowerCase();
 
         if (mainCommand === 'help') {
-            return this.help();
+            return await this.help();
         }
 
         for (const handler of this.handlers) {
@@ -27,7 +29,7 @@ class HandlerFactory implements Handler {
             }
         }
 
-        return new Promise((resolve, reject) => {
+        return new Promise((resolve, _) => {
             resolve('hmmm.. i can\'t understand what you saying.');
         });
     }
@@ -35,12 +37,13 @@ class HandlerFactory implements Handler {
     async help(): Promise<string> {
         let message = 'Here is the list of thing I can do:';
 
-        this.handlers.forEach(async (handler) => {
-            message += '\n '+ await handler.help();
-        });
+        for (const handler of this.handlers) {
+            message += '\n > ' + await handler.help();
+        }
 
-        return new Promise((resolve, reject) => {
+        return new Promise((resolve, _) => {
             message += '\n That`s the thing I know';
+
             resolve(message);
         });
     }
