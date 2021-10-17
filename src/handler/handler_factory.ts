@@ -1,6 +1,7 @@
 'use strict';
 
 import { Message } from "discord.js/typings/index.js";
+import { ChannelHandler } from "./channel_handler";
 import { GetPriceHandler } from "./get_price_handler";
 import Handler from "./handler_interface";
 
@@ -9,7 +10,8 @@ class HandlerFactory implements Handler {
 
     constructor() {
         this.handlers = [
-            new GetPriceHandler()
+            new GetPriceHandler(),
+            new ChannelHandler()
         ];
     }
 
