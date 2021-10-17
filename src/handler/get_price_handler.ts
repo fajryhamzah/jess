@@ -1,6 +1,7 @@
 import Handler from './handler_interface';
 import { LiveCoinWatch } from 'livecoinwatch-wrapper-api';
 import Config from '../app_config';
+import { Message } from 'discord.js/typings/index.js';
 
 let config = Config.getConfig();
 
@@ -8,7 +9,7 @@ export class GetPriceHandler implements Handler {
     getCommandName(): string {
         return 'price';
     }
-    execute(message: string[]): Promise<string> {
+    execute(message: string[], completeMessage: Message): Promise<string> {
         let token = message[0].toUpperCase();
         const client = new LiveCoinWatch(config.getLiveAPIToken());
 

@@ -49,7 +49,7 @@ client.on('messageCreate', (msg: Message) => {
     let message = msg.content.split(' ');
     message.shift();
 
-    HandlerFactory.execute(message).then(reply => {
+    HandlerFactory.execute(message, msg).then(reply => {
         msg.channel.send(reply);
     });
 });

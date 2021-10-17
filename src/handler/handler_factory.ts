@@ -1,5 +1,6 @@
 'use strict';
 
+import { Message } from "discord.js/typings/index.js";
 import { GetPriceHandler } from "./get_price_handler";
 import Handler from "./handler_interface";
 
@@ -16,7 +17,7 @@ class HandlerFactory implements Handler {
         throw new Error("Method not implemented.");
     }
 
-    async execute(message: string[]): Promise<string> {
+    async execute(message: string[], completeMessage: Message): Promise<string> {
         let mainCommand = message.shift()?.toLowerCase();
 
         if (mainCommand === 'help') {
@@ -25,7 +26,7 @@ class HandlerFactory implements Handler {
 
         for (const handler of this.handlers) {
             if (handler.getCommandName() === mainCommand) {
-                return await handler.execute(message);
+                return await handler.execute(message, completeMessage);
             }
         }
 
