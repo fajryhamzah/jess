@@ -32,6 +32,9 @@ client.on('messageCreate', (msg: Message) => {
 
     HandlerFactory.execute(message, msg).then(reply => {
         msg.channel.send(reply);
+    }).catch(e => {
+        console.log('err:' + e);
+        msg.channel.send('Something happen, Please check it!');
     });
 });
 
