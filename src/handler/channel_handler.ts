@@ -4,13 +4,13 @@ import * as repo from '../notif_channel/repository';
 
 const registerHandler = async (message: Message): Promise<string> => {
     const channel = await repo.findByChannelId(message.channelId);
-    
+
     if (channel.length > 0) {
         return new Promise((resolve, _) => {
             resolve('I already doing it, ' + channel[0].added_by + ' told me to do that.');
         });
     }
-    
+
     return await repo.addChannel(message.channelId, message.author.username).then(r => {
         return 'Ok, I will give notification in this channel';
     });
@@ -44,7 +44,8 @@ export class ChannelHandler implements Handler {
 
     help(): Promise<string> {
         return new Promise((resolve, _) => {
-            resolve('**channel {COMMAND_TYPE}** :{COMMAND_TYPE} = **register**|**stop** register or stop notification for the channel');
-        });    }
+            resolve('**channel {COMMAND_TYPE}** : **{COMMAND_TYPE}** = **register**|**stop** register or stop notification for the channel');
+        });
+    }
 
 }

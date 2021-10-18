@@ -2,6 +2,7 @@
 
 import { Message } from "discord.js/typings/index.js";
 import { ChannelHandler } from "./channel_handler";
+import { CoinHandler } from "./coin_handler";
 import { GetPriceHandler } from "./get_price_handler";
 import Handler from "./handler_interface";
 
@@ -11,7 +12,8 @@ class HandlerFactory implements Handler {
     constructor() {
         this.handlers = [
             new GetPriceHandler(),
-            new ChannelHandler()
+            new ChannelHandler(),
+            new CoinHandler()
         ];
     }
 
