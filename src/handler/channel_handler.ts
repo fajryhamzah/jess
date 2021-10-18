@@ -43,7 +43,8 @@ export class ChannelHandler implements Handler {
     }
 
     help(): Promise<string> {
-        throw new Error("Method not implemented.");
-    }
+        return new Promise((resolve, _) => {
+            resolve('**channel {COMMAND_TYPE}** :{COMMAND_TYPE} = **register**|**stop** register or stop notification for the channel');
+        });    }
 
 }
