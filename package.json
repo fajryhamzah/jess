@@ -10,7 +10,9 @@
   "author": "fhaji",
   "license": "ISC",
   "dependencies": {
+    "@types/cron": "^1.7.3",
     "axios": "^0.23.0",
+    "cron": "^1.8.2",
     "discord.js": "^13.2.0",
     "dotenv": "^10.0.0",
     "knex": "^0.95.11",
