@@ -4,8 +4,8 @@
   "description": "Fhaji Discord Crypto Price Notifier Bot",
   "main": "./dist/index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "ts-node-dev --respawn ./src/index.ts"
+    "dev": "ts-node-dev --respawn ./src/index.ts",
+    "build": "tsc"
   },
   "author": "fhaji",
   "license": "ISC",

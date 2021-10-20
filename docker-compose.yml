@@ -1,0 +1,12 @@
+version: '3.8'
+services:
+  bot:
+    build:
+      context: .
+      dockerfile: ./infrastructure/node/Dockerfile
+      target: development
+    volumes:
+      - .:/app
+    command: npm run dev
+    environment:
+      NODE_ENV: development
