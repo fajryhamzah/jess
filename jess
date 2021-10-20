@@ -1,0 +1,64 @@
+#!/bin/bash
+
+SCRIPT_PATH="`dirname \"$0\"`"
+cd ${SCRIPT_PATH}
+
+print_style() {
+    if [ "$2" == "info" ] ; then
+        COLOR="96m"
+    elif [ "$2" == "success" ] ; then
+        COLOR="92m"
+    elif [ "$2" == "warning" ] ; then
+        COLOR="93m"
+    elif [ "$2" == "danger" ] ; then
+        COLOR="91m"
+    else #default color
+        COLOR="0m"
+    fi
+
+    STARTCOLOR="\e[$COLOR"
+    ENDCOLOR="\e[0m"
+    printf "$STARTCOLOR%b$ENDCOLOR" "$1"
+}
+
+help () {
+    me=`basename "$0"`
+    print_style "Jess dev command\n" "success";
+    print_style "Usage:\n" "warning";
+    print_style "   $me command [command_arguments]\n\n";
+    print_style "Available commands:\n" "warning";
+    print_style "Docker\n" "info"
+    print_style "   up" "success";                  printf "\t\t\t Make the docker services alive.\n"
+    print_style "   down" "success";                printf "\t\t\t Remove the docker services.\n"
+    print_style "\n"
+}
+
+
+do_docker_compose() {
+    docker-compose -f docker-compose.yml ${@}
+}
+
+command_up() {
+    print_style "\nInitializing Docker Compose\n" "info"
+    do_docker_compose up -d ${@}
+}
+
+if [[ $# -eq 0 ]] ; then
+    help
+    exit 1
+fi
+
+if [ "$1" == "up" ] ; then
+    print_style "Boot All Services\n" "warning"
+    shift
+    command_up ${@}
+
+elif [ "$1" == "down" ]; then
+    print_style "Stopping Docker Compose\n" "info"
+    do_docker_compose down
+    
+else
+    print_style "Invalid arguments.\n" "danger"
+    help
+    exit 1
+fi
