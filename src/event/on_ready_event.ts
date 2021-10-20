@@ -29,13 +29,13 @@ const notifier = async (channel: ThreadChannel) => {
 
             switch (thresholdType) {
                 case coinRepo.THRESHOLD_TYPE_UNDER:
-                    response.rate < price ? channel.send(coinCode + ' is under ' + formatUSD.format(coin.price) + '. Real Price : ' + formatUSD.format(response.rate)) : null;
+                    response.rate < price ? channel.send(coinCode + ' is under ' + formatUSD.format(coin.price) + '. Current Price : ' + formatUSD.format(response.rate)) : null;
                     break;
                 case coinRepo.THRESHOLD_TYPE_UPPER:
-                    response.rate > price ? channel.send(coinCode + ' is more than ' + formatUSD.format(coin.price) + '. Real Price : ' + formatUSD.format(response.rate)) : null;
+                    response.rate > price ? channel.send(coinCode + ' is more than ' + formatUSD.format(coin.price) + '. Current Price : ' + formatUSD.format(response.rate)) : null;
                     break;
             }
-        }).catch(e => console.log('something happer with api', e));
+        }).catch(e => console.log('something happen with live wathcn api', e));
     }
 }
 
@@ -44,6 +44,7 @@ const event = (client: Client) => {
     console.log(`There is a new girl in town, an it\`s Jess!`);
 
     const job = new cron.CronJob('*/5 * * * *', () => {
+        console.log('[Executing Job]');
         let jessId = client.user?.id || '';
 
         client.guilds.cache.map(guild => {
@@ -56,6 +57,7 @@ const event = (client: Client) => {
 
                 try {
                     if (await isChannelShouldBeNotify(channel.id)) {
+                        console.log('[Job] Notifying '+ channel.name);
                         notifier(channel);
                     }
                 } catch (e) {
@@ -63,6 +65,7 @@ const event = (client: Client) => {
                 }
             })
         });
+        console.log('[Job Executed]');
     });
 
     job.start();
