@@ -30,12 +30,22 @@ help () {
     print_style "Docker\n" "info"
     print_style "   up" "success";                  printf "\t\t\t Make the docker services alive.\n"
     print_style "   down" "success";                printf "\t\t\t Remove the docker services.\n"
+    print_style "   build" "success";               printf "\t\t\t Build docker image.\n"
+    print_style "   run-image" "success";           printf "\t\t\t Run docker image.\n"
     print_style "\n"
 }
 
 
 do_docker_compose() {
     docker-compose -f docker-compose.yml ${@}
+}
+
+do_docker_build() {
+    docker build --no-cache -t fhaji-bot:jess -f infrastructure/node/Dockerfile --target production .
+}
+
+do_docker_run_image() {
+    docker run --env-file .env fhaji-bot:jess
 }
 
 command_up() {
@@ -56,6 +66,14 @@ if [ "$1" == "up" ] ; then
 elif [ "$1" == "down" ]; then
     print_style "Stopping Docker Compose\n" "info"
     do_docker_compose down
+
+elif [ "$1" == "build" ]; then
+    print_style "Building Docker Image\n" "info"
+    do_docker_build
+
+elif [ "$1" == "run-image" ]; then
+    print_style "Run Docker Image\n" "info"
+    do_docker_run_image
     
 else
     print_style "Invalid arguments.\n" "danger"

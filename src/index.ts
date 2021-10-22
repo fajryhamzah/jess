@@ -6,7 +6,7 @@ import onReadyEvent from './event/on_ready_event';
 import messageCreateEvent from './event/message_create_handler';
 
 const config = Config.getConfig();
-const client = new Client({ intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_MESSAGES] });
+const client = new Client({ intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_MESSAGES], retryLimit: 10 });
 
 client.on('ready', () => onReadyEvent(client));
 
