@@ -41,11 +41,11 @@ do_docker_compose() {
 }
 
 do_docker_build() {
-    docker build --no-cache -t fhaji-bot:jess -f infrastructure/node/Dockerfile --target production .
+    docker build --no-cache -t fhaji/jess-bot:1 -f infrastructure/node/Dockerfile --target production .
 }
 
 do_docker_run_image() {
-    docker run --env-file .env fhaji-bot:jess
+    docker run --env-file .env fhaji/jess-bot:1
 }
 
 command_up() {
